@@ -1,14 +1,19 @@
 import socket
-import pickleUtilities
 import os
+import sys
+sys.path.append('..')
+import pickleUtilities
 
 def saveFile(contents, fileName):
+    """creates and writes to a file, the contents given in the parameter"""
     fileDir = os.path.dirname(os.path.abspath(__file__))
     filePath = os.path.join(fileDir, fileName)
     with open(filePath, 'wb') as file:
         file.write(contents)
 
 def runServer():
+    """the main function which, sets up the server side socket, then has a loop which accepts a connection from the client
+    and uses the pickleUtilities file to unpickle the contents received"""
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = ('localhost', 12345)
     server_socket.bind(server_address)

@@ -1,6 +1,8 @@
 import socket
-import pickleUtilities
 import threading
+import sys
+sys.path.append('..')
+import pickleUtilities
 
 def exampleTask1(x, y):
         return x + y
@@ -8,6 +10,7 @@ def exampleTask2(x, y):
         return x - y
 
 def handleClient(clientSocket):
+    """code to receive the task and arguments from the client, and unpickle, and then return result"""
     data = clientSocket.recv(4096)
     while data:
         try:
@@ -21,6 +24,7 @@ def handleClient(clientSocket):
     clientSocket.close()
 
 def startWorker(port):
+    "main code which sets up the socket, and then executes the handleclient"
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(('localhost', port))
     server.listen(5)

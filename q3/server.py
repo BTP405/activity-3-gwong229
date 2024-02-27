@@ -1,13 +1,15 @@
 import socket
 import threading
-import pickleUtilities
 import signal
 import sys
+sys.path.append('..')
+import pickleUtilities
 
 clients = []
 lock = threading.Lock()
 
 def handleClient(clientSocket):
+    """code to handel client socket data received"""
     while True:
         try:
             data = clientSocket.recv(1024)
@@ -26,6 +28,7 @@ def handleClient(clientSocket):
         clientSocket.close()
 
 def signal_handler(sig, frame):
+    """code to handle shutting down the server"""
     print("Shutting down the server...")
     with lock:
         for client_socket in clients:
@@ -33,6 +36,7 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 def startServer():
+    """setting up sockets and accepting clients"""
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(('0.0.0.0', 5555))
     server.listen(5)
